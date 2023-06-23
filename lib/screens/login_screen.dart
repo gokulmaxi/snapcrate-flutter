@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snapcrate/service/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/loginScreen";
@@ -62,6 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   // TODO add the service call for login
+                  AuthService()
+                      .login(_emailController.text, _passwordController.text);
                   print(
                       "email: ${_emailController.text},pass: ${_passwordController.text}");
                 },
