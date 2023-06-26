@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snapcrate/service/auth_service.dart';
 import 'package:get/get.dart';
+import 'package:snapcrate/widgets/form_inputbox.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = "/registerScreen";
@@ -10,9 +11,18 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _userController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final AuthService _authManager = Get.find();
+  bool _passValidated = false;
+
+  incrementCounter(flag) {
+    setState(() {
+      _passValidated = flag;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +46,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             Padding(
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 15, bottom: 15),
+              child: TextField(
+                controller: _userController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'user',
+                    hintText: 'enter your unique user name'),
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 controller: _emailController,
@@ -45,28 +66,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     hintText: 'Enter valid email id as abc@gmail.com'),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              child: TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter secure password'),
-              ),
+            PasswordField(
+              validationController: incrementCounter,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: ElevatedButton(
-                onPressed: () {
-                  _authManager.login(
-                      _emailController.text, _passwordController.text);
-                },
+                // TODO Registration service returning bad request
+                onPressed: _passValidated
+                    ? () {
+                        _authManager.register(_userController.text,
+                            _emailController.text, _passwordController.text);
+                      }
+                    : null,
                 child: const Text(
                   'Register',
-                  style: TextStyle(color: Colors.black, fontSize: 25),
+                  style: TextStyle(fontSize: 25),
                 ),
               ),
             ),

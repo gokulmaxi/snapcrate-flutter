@@ -46,6 +46,30 @@ class AuthService extends GetxController {
     }
   }
 
+  Future<bool> register(String username, String email, String password) async {
+    try {
+      final responseRaw = await Api().dio.post(
+        '/api/Auth/register',
+        data: {
+          'username': username,
+          'email': email,
+          'password': password,
+        },
+      );
+
+      if (responseRaw.statusCode != 200) {
+        Get.snackbar("Registration failed", "Unable to reach server",
+            snackPosition: SnackPosition.BOTTOM);
+        return false;
+      }
+      print(responseRaw.data);
+      return true;
+    } catch (error) {
+      print('Login error: $error');
+      return false;
+    }
+  }
+
   void logOut() {
     isLogged.value = false;
     TokenManger().removeToken();
