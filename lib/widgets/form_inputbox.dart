@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class PasswordField extends StatefulWidget {
-  const PasswordField({Key? key, required this.validationController})
+  const PasswordField(
+      {Key? key, required this.validationController, this.textController})
       : super(key: key);
   final validationController;
+  final textController;
 
   @override
   _PasswordFieldState createState() => _PasswordFieldState();
@@ -61,6 +63,7 @@ class _PasswordFieldState extends State<PasswordField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
+            controller: widget.textController,
             onChanged: (password) => onPasswordChanged(password),
             obscureText: !_isVisible,
             decoration: InputDecoration(

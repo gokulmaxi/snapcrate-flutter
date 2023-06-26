@@ -68,11 +68,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             PasswordField(
               validationController: incrementCounter,
+              textController: _passwordController,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: ElevatedButton(
-                // TODO Registration service returning bad request
                 onPressed: _passValidated
                     ? () {
                         _authManager.register(_userController.text,

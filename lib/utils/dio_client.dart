@@ -50,9 +50,13 @@ class ErrorInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       Get.snackbar("Request Error", "Unauthorised rerquest");
     }
-    Get.snackbar("err", err.response?.statusMessage ?? "null");
     if (err.response?.statusCode == 404) {
       Get.snackbar("Request Error", "Resource not Found");
+    }
+    if (err.response?.statusCode == 400) {
+      // TODO add snack bar other dialog box to show list of errors from c#
+      Get.snackbar(
+          "Request Error", err.response?.statusMessage ?? "Bad Request");
     }
     // if (err.) {
 

@@ -48,6 +48,7 @@ class AuthService extends GetxController {
 
   Future<bool> register(String username, String email, String password) async {
     try {
+      print("$email - $username - $password");
       final responseRaw = await Api().dio.post(
         '/api/Auth/register',
         data: {
@@ -56,13 +57,14 @@ class AuthService extends GetxController {
           'password': password,
         },
       );
-
-      if (responseRaw.statusCode != 200) {
-        Get.snackbar("Registration failed", "Unable to reach server",
+      if (responseRaw.data['status'] != LoginStatus.success) {
+        Get.snackbar("Registration failed", responseRaw.data['message'],
             snackPosition: SnackPosition.BOTTOM);
         return false;
       }
-      print(responseRaw.data);
+      Get.back();
+      Get.snackbar("Registration complete", "login now",
+          snackPosition: SnackPosition.BOTTOM);
       return true;
     } catch (error) {
       print('Login error: $error');
