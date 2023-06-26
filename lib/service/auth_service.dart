@@ -8,7 +8,7 @@ class AuthService extends GetxController {
   final isLogged = false.obs;
   Future<bool> login(String username, String password) async {
     try {
-      final response = await Api().dio.post(
+      final responseRaw = await Api().dio.post(
         '/api/Auth/login',
         data: {
           'username': username,
@@ -16,18 +16,30 @@ class AuthService extends GetxController {
         },
       );
 
-      if (response.statusCode == 200) {
-        var token = LoginResponse.fromJson(response.data);
-        isLogged.value = true;
-        Get.snackbar("login", "succ");
-        if (kDebugMode) {
-          print(token.token);
-        }
-        TokenManger().saveToken(token.token);
-        return true;
-      } else {
+      if (responseRaw.statusCode != 200) {
+        Get.snackbar("Login failed", "Unable to reach server",
+            snackPosition: SnackPosition.BOTTOM);
         return false;
       }
+      var response = LoginResponse.fromJson(responseRaw.data);
+      print(response.status);
+      if (response.status == LoginStatus.userNotFound) {
+        Get.snackbar("Login failed", "No user found",
+            snackPosition: SnackPosition.BOTTOM);
+        return false;
+      }
+      if (response.status == LoginStatus.invalidPassword) {
+        Get.snackbar("Login failed", "Invalid password",
+            snackPosition: SnackPosition.BOTTOM);
+        return false;
+      }
+      isLogged.value = true;
+      Get.snackbar("login", "succ");
+      if (kDebugMode) {
+        print(response.token);
+      }
+      TokenManger().saveToken(response.token);
+      return true;
     } catch (error) {
       print('Login error: $error');
       return false;

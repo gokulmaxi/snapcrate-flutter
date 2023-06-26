@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:snapcrate/screens/register_screen.dart';
 import 'package:snapcrate/service/auth_service.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const routeName = "/loginScreen";
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  static const routeName = "/registerScreen";
+  const RegisterScreen({Key? key}) : super(key: key);
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final AuthService _authManager = Get.find();
@@ -18,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("Register"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -66,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       _emailController.text, _passwordController.text);
                 },
                 child: const Text(
-                  'Login',
+                  'Register',
                   style: TextStyle(color: Colors.black, fontSize: 25),
                 ),
               ),
@@ -74,12 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 130,
             ),
-            //TODO add gesture detector and navigate to register screen
-            InkWell(
-                onTap: () {
-                  Get.to(const RegisterScreen());
-                },
-                child: const Text('New User? Create Account'))
           ],
         ),
       ),

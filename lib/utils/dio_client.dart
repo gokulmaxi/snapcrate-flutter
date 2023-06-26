@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:snapcrate/utils/token_handler.dart';
 import './globals.dart';
 
@@ -16,12 +16,12 @@ class Api {
   static Dio createDio() {
     var dio = Dio(BaseOptions(
       baseUrl: Globals().baseUrl,
-      receiveTimeout: const Duration(seconds: 15000), // 15 seconds
-      connectTimeout: const Duration(seconds: 15000),
-      sendTimeout: const Duration(seconds: 15000),
+      receiveTimeout: const Duration(seconds: 1000), // 15 seconds
+      connectTimeout: const Duration(seconds: 1000),
+      sendTimeout: const Duration(seconds: 1000),
     ));
     //TODO add interceptor for jwt
-    dio.interceptors.addAll({AuthInterceptor()});
+    dio.interceptors.addAll({AuthInterceptor(), ErrorInterceptor()});
     return dio;
   }
 }
@@ -36,11 +36,28 @@ class AuthInterceptor extends Interceptor {
   ) {
     // Add the authentication token to the headers of each request
     var token = TokenManger().getToken();
-    print("Interceptor");
-    print(token);
     // TODO route to login page if token is not found
     if (token == null) {}
     options.headers['Authorization'] = 'Bearer $token';
     handler.next(options);
+  }
+}
+
+class ErrorInterceptor extends Interceptor {
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    print(err.response?.statusCode);
+    if (err.response?.statusCode == 401) {
+      Get.snackbar("Request Error", "Unauthorised rerquest");
+    }
+    Get.snackbar("err", err.response?.statusMessage ?? "null");
+    if (err.response?.statusCode == 404) {
+      Get.snackbar("Request Error", "Resource not Found");
+    }
+    // if (err.) {
+
+    // }
+
+    super.onError(err, handler);
   }
 }
