@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:snapcrate/utils/token_handler.dart';
 import './globals.dart';
 
 class Api {
@@ -19,7 +21,26 @@ class Api {
       sendTimeout: const Duration(seconds: 15000),
     ));
     //TODO add interceptor for jwt
-    dio.interceptors.addAll({});
+    dio.interceptors.addAll({AuthInterceptor()});
     return dio;
+  }
+}
+
+class AuthInterceptor extends Interceptor {
+  AuthInterceptor();
+
+  @override
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) {
+    // Add the authentication token to the headers of each request
+    var token = TokenManger().getToken();
+    print("Interceptor");
+    print(token);
+    // TODO route to login page if token is not found
+    if (token == null) {}
+    options.headers['Authorization'] = 'Bearer $token';
+    handler.next(options);
   }
 }

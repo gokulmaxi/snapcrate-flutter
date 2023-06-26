@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snapcrate/service/auth_service.dart';
+import 'package:snapcrate/utils/dio_client.dart';
+import 'package:snapcrate/utils/token_handler.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/loginScreen";
@@ -74,6 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  var data = Api()
+                      .dio
+                      .get("/WeatherForecast")
+                      .then((value) => print(value));
+                },
+                child: const Text("Test")),
             const SizedBox(
               height: 130,
             ),
