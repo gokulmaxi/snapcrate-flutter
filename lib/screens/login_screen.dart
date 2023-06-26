@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:snapcrate/service/auth_service.dart';
-import 'package:snapcrate/utils/dio_client.dart';
-import 'package:snapcrate/utils/token_handler.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/loginScreen";
-
-  const LoginScreen({super.key});
-
+  const LoginScreen({Key? key}) : super(key: key);
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -15,7 +12,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  final AuthService _authManager = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,11 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.only(top: 20),
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO add the service call for login
-                  AuthService()
-                      .login(_emailController.text, _passwordController.text);
-                  print(
-                      "email: ${_emailController.text},pass: ${_passwordController.text}");
+                  _authManager.login(
+                      _emailController.text, _passwordController.text);
                 },
                 child: const Text(
                   'Login',
@@ -76,14 +70,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  var data = Api()
-                      .dio
-                      .get("/WeatherForecast")
-                      .then((value) => print(value));
-                },
-                child: const Text("Test")),
             const SizedBox(
               height: 130,
             ),
