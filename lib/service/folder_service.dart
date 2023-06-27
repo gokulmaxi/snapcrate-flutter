@@ -17,6 +17,7 @@ class FolderHandler extends GetxController {
   increment() => count.value++;
   // add function to get user added folders
   void initFolderHandler() {
+    folderList.clear();
     var values = _box.read(Globals().folderStorageToken);
     List<String> data = List<String>.from(values);
     folderList.addAll(data);

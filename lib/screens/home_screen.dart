@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:snapcrate/screens/image_list_screen.dart';
 import 'package:snapcrate/service/auth_service.dart';
 import 'package:snapcrate/service/folder_service.dart';
 import 'package:snapcrate/utils/debug_logger.dart';
@@ -54,6 +55,10 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                   child: ListTile(
+                    onTap: () {
+                      Get.to(ImageLister(),
+                          arguments: [_folderHandler.folderList[index]]);
+                    },
                     title: Text(_folderHandler.folderList[index]),
                   ),
                 );
