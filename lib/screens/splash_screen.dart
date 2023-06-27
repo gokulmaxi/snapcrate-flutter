@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snapcrate/screens/onboard_screen.dart';
 import 'package:snapcrate/service/auth_service.dart';
+import 'package:snapcrate/service/folder_service.dart';
 
 class SplashView extends StatelessWidget {
   final AuthService _authmanager = Get.put(AuthService());
+  final FolderHandler _folderHandler = Get.put(FolderHandler());
 
   Future<void> initializeSettings() async {
     _authmanager.checkLoginStatus();
+    _folderHandler.initFolderHandler();
 
     //Simulate other services for 3 seconds
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 1));
   }
 
   @override
