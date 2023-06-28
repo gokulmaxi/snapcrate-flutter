@@ -10,7 +10,7 @@ class FolderModel {
   FolderModel(this.path, this.name);
 }
 
-class FolderHandler extends GetxController {
+class FoldersListHandler extends GetxController {
   final GetStorage _box = GetStorage();
   final folderList = <String>[].obs;
   final count = 0.obs;

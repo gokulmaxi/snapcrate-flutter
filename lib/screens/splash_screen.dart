@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:snapcrate/screens/onboard_screen.dart';
 import 'package:snapcrate/service/auth_service.dart';
 import 'package:snapcrate/service/folder_service.dart';
+import 'package:snapcrate/widgets/loader_screen.dart';
+import 'package:snapcrate/widgets/error_view.dart';
 
 class SplashView extends StatelessWidget {
   final AuthService _authmanager = Get.put(AuthService());
-  final FolderHandler _folderHandler = Get.put(FolderHandler());
+  final FoldersListHandler _folderHandler = Get.put(FoldersListHandler());
 
   Future<void> initializeSettings() async {
     _authmanager.checkLoginStatus();
@@ -31,26 +33,5 @@ class SplashView extends StatelessWidget {
         }
       },
     );
-  }
-
-  Scaffold errorView(AsyncSnapshot<Object?> snapshot) {
-    return Scaffold(body: Center(child: Text('Error: ${snapshot.error}')));
-  }
-
-  Scaffold waitingView() {
-    return Scaffold(
-        body: Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: CircularProgressIndicator(),
-          ),
-          Text('Loading...'),
-        ],
-      ),
-    ));
   }
 }

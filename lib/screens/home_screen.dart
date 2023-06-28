@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:snapcrate/screens/image_list_screen.dart';
 import 'package:snapcrate/service/auth_service.dart';
 import 'package:snapcrate/service/folder_service.dart';
+import 'package:snapcrate/service/folder_state_service.dart';
 import 'package:snapcrate/utils/debug_logger.dart';
 
 class HomeView extends StatefulWidget {
@@ -15,7 +16,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final AuthService _authManager = Get.find();
-  final FolderHandler _folderHandler = Get.find();
+  final FoldersListHandler _folderHandler = Get.find();
+  final FolderStateHandler _folderStateHandler = Get.put(FolderStateHandler());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +49,7 @@ class _HomeViewState extends State<HomeView> {
                       // A SlidableAction can have an icon and/or a label.
                       SlidableAction(
                         onPressed: (context) {},
-                        backgroundColor: Color(0xFFFE4A49),
+                        backgroundColor: const Color(0xFFFE4A49),
                         foregroundColor: Colors.white,
                         icon: Icons.delete,
                         label: 'Delete',
@@ -56,7 +58,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   child: ListTile(
                     onTap: () {
-                      Get.to(ImageLister(),
+                      Get.to(const ImageLister(),
                           arguments: [_folderHandler.folderList[index]]);
                     },
                     title: Text(_folderHandler.folderList[index]),
