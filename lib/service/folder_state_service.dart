@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:path_provider/path_provider.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:snapcrate/utils/debug_logger.dart';
 
 class ImageMetaData {
@@ -13,13 +14,16 @@ class ImageMetaData {
 class FolderStateHandler extends GetxController {
   Future<List<ImageMetaData>> getFolderState(String folderPath) async {
     final folder = Directory(folderPath);
+    print(folder);
     final List<ImageMetaData> state = [];
 
     if (folder.existsSync()) {
       final files = folder.listSync(recursive: false);
 
+      dLog("message");
       for (var file in files) {
         if (file is File) {
+          dLog(file.path);
           state.add(ImageMetaData(file.path, file.lastModifiedSync()));
         }
       }
