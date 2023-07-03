@@ -47,32 +47,34 @@ class _HomeViewState extends State<HomeView> {
                     () => ListView.builder(
                         itemCount: _folderHandler.folderList.length,
                         itemBuilder: (context, index) {
-                          return Slidable(
-                            key: ValueKey(index),
-                            startActionPane: ActionPane(
-                              motion: const ScrollMotion(),
-                              children: [
-                                // A SlidableAction can have an icon and/or a label.
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    _folderHandler.deleteFolder(
-                                        _folderHandler.folderList[index].id);
-                                  },
-                                  backgroundColor: const Color(0xFFFE4A49),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-                                  label: 'Delete',
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              onTap: () {
-                                Get.to(const ImageLister(), arguments: [
-                                  _folderHandler.folderList[index]
-                                ]);
-                              },
-                              title:
-                                  Text(_folderHandler.folderList[index].name),
+                          return Card(
+                            child: Slidable(
+                              key: ValueKey(index),
+                              startActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                children: [
+                                  // A SlidableAction can have an icon and/or a label.
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      _folderHandler.deleteFolder(
+                                          _folderHandler.folderList[index].id);
+                                    },
+                                    backgroundColor: const Color(0xFFFE4A49),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Delete',
+                                  ),
+                                ],
+                              ),
+                              child: ListTile(
+                                onTap: () {
+                                  Get.to(const ImageLister(), arguments: [
+                                    _folderHandler.folderList[index]
+                                  ]);
+                                },
+                                title:
+                                    Text(_folderHandler.folderList[index].name),
+                              ),
                             ),
                           );
                         }),

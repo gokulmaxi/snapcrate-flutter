@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snapcrate/models/folder_models.dart';
-import 'package:snapcrate/service/folder_state_service.dart';
+import 'package:snapcrate/screens/shared_users_screen.dart';
 import 'package:snapcrate/widgets/error_view.dart';
 import 'package:snapcrate/widgets/loader_screen.dart';
 
@@ -31,13 +29,16 @@ class _ImageListerState extends State<ImageLister> {
             return Scaffold(
               appBar: AppBar(
                 title: Text(folderData.name),
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        Get.to(const SharedFolderUsersScreen(),
+                            arguments: [folderData]);
+                      },
+                      icon: const Icon(Icons.person_add))
+                ],
               ),
-              body: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisSpacing: 0,
-                    mainAxisSpacing: 0,
-                    crossAxisCount: 3,
-                  ),
+              body: ListView.builder(
                   itemCount: 0,
                   itemBuilder: (context, index) {
                     return Container(
