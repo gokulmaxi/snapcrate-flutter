@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:snapcrate/screens/splash_screen.dart';
+import 'package:snapcrate/service/auth_service.dart';
 import 'package:snapcrate/utils/token_handler.dart';
 import './globals.dart';
 
@@ -49,6 +51,8 @@ class ErrorInterceptor extends Interceptor {
     print(err.response?.statusCode);
     if (err.response?.statusCode == 401) {
       Get.snackbar("Request Error", "Unauthorised rerquest");
+      AuthService().logOut();
+      Get.to(SplashView());
     }
     if (err.response?.statusCode == 404) {
       Get.snackbar("Request Error", "Resource not Found");

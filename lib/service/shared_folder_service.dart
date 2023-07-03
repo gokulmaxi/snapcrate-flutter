@@ -3,7 +3,7 @@ import 'package:snapcrate/models/folder_models.dart';
 import 'package:snapcrate/utils/debug_logger.dart';
 import 'package:snapcrate/utils/dio_client.dart';
 
-class FoldersListHandler extends GetxController {
+class SharedFoldersHandler extends GetxController {
   final folderList = <FolderModel>[].obs;
   Future<void> getFolders() async {
     try {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:snapcrate/models/folder_models.dart';
 import 'package:snapcrate/service/folder_state_service.dart';
 import 'package:snapcrate/widgets/error_view.dart';
 import 'package:snapcrate/widgets/loader_screen.dart';
@@ -16,12 +17,10 @@ class ImageLister extends StatefulWidget {
 }
 
 class _ImageListerState extends State<ImageLister> {
-  final FolderStateHandler _folderStateHandler = Get.find();
-
   @override
   Widget build(BuildContext context) {
+    final FolderModel folderData = Get.arguments[0];
     return FutureBuilder(
-      future: _folderStateHandler.getFolderState(Get.arguments[0]),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return waitingView();
@@ -29,10 +28,9 @@ class _ImageListerState extends State<ImageLister> {
           if (snapshot.hasError)
             return errorView(snapshot);
           else {
-            final data = snapshot.data as List<ImageMetaData>;
             return Scaffold(
               appBar: AppBar(
-                title: Text(Get.arguments[0]),
+                title: Text(folderData.name),
               ),
               body: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -40,11 +38,11 @@ class _ImageListerState extends State<ImageLister> {
                     mainAxisSpacing: 0,
                     crossAxisCount: 3,
                   ),
-                  itemCount: data.length,
+                  itemCount: 0,
                   itemBuilder: (context, index) {
                     return Container(
-                      child: Image.file(File(data[index].path)),
-                    );
+                        // child: Image.file(File(data[index].path)),
+                        );
                   }),
             );
           }
