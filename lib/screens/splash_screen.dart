@@ -5,6 +5,9 @@ import 'package:snapcrate/service/auth_service.dart';
 import 'package:snapcrate/service/folder_service.dart';
 import 'package:snapcrate/service/image_service.dart';
 import 'package:snapcrate/service/shared_folder_service.dart';
+import 'package:snapcrate/utils/debug_logger.dart';
+import 'package:snapcrate/utils/dio_client.dart';
+import 'package:snapcrate/utils/globals.dart';
 import 'package:snapcrate/widgets/loader_screen.dart';
 import 'package:snapcrate/widgets/error_view.dart';
 
@@ -15,6 +18,7 @@ class SplashView extends StatelessWidget {
       Get.put(SharedFoldersHandler());
   final ImageHandler _imageHandler = Get.put(ImageHandler());
   Future<void> initializeSettings() async {
+    dLog(Globals().baseUrl);
     _authmanager.checkLoginStatus();
 
     //Simulate other services for 3 seconds

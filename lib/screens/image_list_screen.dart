@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snapcrate/models/folder_models.dart';
+import 'package:snapcrate/screens/image_view_screen.dart';
 import 'package:snapcrate/screens/shared_users_screen.dart';
 import 'package:snapcrate/service/image_service.dart';
 import 'package:snapcrate/utils/debug_logger.dart';
@@ -28,9 +29,9 @@ class _ImageListerState extends State<ImageLister> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return waitingView();
         } else {
-          if (snapshot.hasError)
+          if (snapshot.hasError) {
             return errorView(snapshot);
-          else {
+          } else {
             return Scaffold(
               appBar: AppBar(
                 title: Text(folderData.name),
@@ -51,14 +52,22 @@ class _ImageListerState extends State<ImageLister> {
                   ),
                   itemCount: _imageHandler.imageList.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      child: Image.network(
-                          _imageHandler.imageList[index].thumbnailUrl),
+                    return InkWell(
+                      onTap: () {
+                        Get.to(ImageViewer(),
+                            arguments: [_imageHandler.imageList[index]]);
+                      },
+                      child: Container(
+                        child: Image.network(
+                            _imageHandler.imageList[index].thumbnailUrl),
+                      ),
                     );
                   }),
-              floatingActionButton: FloatingActionButton(onPressed: () {
-                _imageHandler.uploadImageWithFormData(folderData.id);
-              }),
+              floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    _imageHandler.uploadImageWithFormData(folderData.id);
+                  },
+                  child: const Icon(Icons.add)),
             );
           }
         }
