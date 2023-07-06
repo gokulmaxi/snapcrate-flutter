@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:snapcrate/screens/onboard_screen.dart';
 import 'package:snapcrate/service/auth_service.dart';
 import 'package:snapcrate/service/folder_service.dart';
+import 'package:snapcrate/service/image_service.dart';
 import 'package:snapcrate/service/shared_folder_service.dart';
 import 'package:snapcrate/widgets/loader_screen.dart';
 import 'package:snapcrate/widgets/error_view.dart';
@@ -12,6 +13,7 @@ class SplashView extends StatelessWidget {
   final FoldersListHandler _folderHandler = Get.put(FoldersListHandler());
   final SharedFoldersHandler _sharedFoldersHandler =
       Get.put(SharedFoldersHandler());
+  final ImageHandler _imageHandler = Get.put(ImageHandler());
   Future<void> initializeSettings() async {
     _authmanager.checkLoginStatus();
 

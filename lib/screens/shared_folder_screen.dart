@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snapcrate/screens/home_screen.dart';
+import 'package:snapcrate/screens/image_list_screen.dart';
 import 'package:snapcrate/service/shared_folder_service.dart';
 import 'package:snapcrate/widgets/error_view.dart';
 import 'package:snapcrate/widgets/loader_screen.dart';
@@ -34,6 +35,11 @@ class _SharedFoldersScreenState extends State<SharedFoldersScreen> {
                     itemBuilder: (context, index) {
                       return Card(
                         child: ListTile(
+                          onTap: () {
+                            Get.to(const ImageLister(), arguments: [
+                              _sharedFolderHandler.folderList[index].folder
+                            ]);
+                          },
                           title: Text(_sharedFolderHandler
                               .folderList[index].folder.name),
                         ),

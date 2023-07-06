@@ -34,7 +34,7 @@ class _SharedFolderUsersScreenState extends State<SharedFolderUsersScreen> {
               appBar: AppBar(
                 title: Text("${folderData.name}' users"),
               ),
-              // FIXME observable not working when updating list
+              // FIXME observable not working when updating lis[[id:4fe44262-e092-4946-b888-d43cc2eaadbe][storage-account]]t
               body: Obx(() {
                 return ListView.builder(
                     itemCount: _sharedFolderHandler.userList.length,
