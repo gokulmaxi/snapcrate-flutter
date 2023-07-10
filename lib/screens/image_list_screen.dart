@@ -44,28 +44,39 @@ class _ImageListerState extends State<ImageLister> {
                       icon: const Icon(Icons.person_add))
                 ],
               ),
-              body: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisSpacing: 0,
-                    mainAxisSpacing: 0,
-                    crossAxisCount: 3,
-                  ),
-                  itemCount: _imageHandler.imageList.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Get.to(ImageViewer(),
-                            arguments: [_imageHandler.imageList[index]]);
-                      },
-                      child: Container(
-                        child: Image.network(
-                            _imageHandler.imageList[index].thumbnailUrl),
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  _imageHandler.getImageFromFolder(folderData.id);
+                },
+                child: Obx(
+                  () => GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 0,
+                        mainAxisSpacing: 0,
+                        crossAxisCount: 3,
                       ),
-                    );
-                  }),
+                      itemCount: _imageHandler.imageList.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Get.to(ImageViewer(),
+                                arguments: [_imageHandler.imageList[index]]);
+                          },
+                          child: Container(
+                            child: FadeInImage(
+                              placeholder: AssetImage("assets/icon-img.png"),
+                              image: NetworkImage(
+                                  _imageHandler.imageList[index].thumbnailUrl),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ),
               floatingActionButton: FloatingActionButton(
                   onPressed: () {
                     _imageHandler.uploadImageWithFormData(folderData.id);
+                    setState(() {});
                   },
                   child: const Icon(Icons.add)),
             );

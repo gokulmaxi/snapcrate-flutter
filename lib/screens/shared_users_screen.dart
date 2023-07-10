@@ -53,10 +53,20 @@ class _SharedFolderUsersScreenState extends State<SharedFolderUsersScreen> {
                                   ? () {
                                       _sharedFolderHandler.addToSharedFolder(
                                           userName, folderData.id);
+                                      Future.delayed(
+                                          const Duration(milliseconds: 1000),
+                                          () {
+                                        setState(() {});
+                                      });
                                     }
                                   : () {
                                       _sharedFolderHandler
                                           .removeFromSharedFolder(shareId.id);
+                                      Future.delayed(
+                                          const Duration(milliseconds: 1000),
+                                          () {
+                                        setState(() {});
+                                      });
                                     },
                               icon: shareId == null
                                   ? const Icon(Icons.person_add)
