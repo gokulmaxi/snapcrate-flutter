@@ -30,21 +30,57 @@ class _SharedFoldersScreenState extends State<SharedFoldersScreen> {
                 appBar: AppBar(
                   title: const Text("Shared Folders"),
                 ),
-                body: ListView.builder(
-                    itemCount: _sharedFolderHandler.folderList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          onTap: () {
-                            Get.to(const ImageLister(), arguments: [
-                              _sharedFolderHandler.folderList[index].folder
-                            ]);
-                          },
-                          title: Text(_sharedFolderHandler
-                              .folderList[index].folder.name),
+                body: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final paddingSize = constraints.maxHeight * 0.04;
+                    return GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          crossAxisCount: 2,
                         ),
-                      );
-                    }),
+                        itemCount: _sharedFolderHandler.folderList.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: GestureDetector(
+                                onTap: () {
+                                  Get.to(const ImageLister(), arguments: [
+                                    _sharedFolderHandler
+                                        .folderList[index].folder,
+                                    _sharedFolderHandler
+                                        .folderList[index].enableEditing
+                                  ]);
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                      color: Color.fromARGB(100, 248, 249, 253),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            paddingSize,
+                                            paddingSize,
+                                            paddingSize,
+                                            10),
+                                        child: const Image(
+                                          image: AssetImage(
+                                              "assets/folder-icon.png"),
+                                        ),
+                                      ),
+                                      Text(_sharedFolderHandler
+                                          .folderList[index].folder.name)
+                                    ],
+                                  ),
+                                )
+                                // (_folderHandler.folderList[index].name),
+                                ),
+                          );
+                        });
+                  },
+                ),
                 bottomNavigationBar: BottomNavigationBar(
                   currentIndex: 1,
                   items: const <BottomNavigationBarItem>[

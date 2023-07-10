@@ -22,6 +22,7 @@ class _ImageListerState extends State<ImageLister> {
   @override
   Widget build(BuildContext context) {
     final FolderModel folderData = Get.arguments[0];
+    final bool isEditable = Get.arguments[1];
     dLog(folderData.id);
     return FutureBuilder(
       future: _imageHandler.getImageFromFolder(folderData.id),
@@ -34,16 +35,17 @@ class _ImageListerState extends State<ImageLister> {
           } else {
             return Scaffold(
               appBar: AppBar(
-                title: Text(folderData.name),
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        Get.to(const SharedFolderUsersScreen(),
-                            arguments: [folderData]);
-                      },
-                      icon: const Icon(Icons.person_add))
-                ],
-              ),
+                  title: Text(folderData.name),
+                  actions: isEditable
+                      ? [
+                          IconButton(
+                              onPressed: () {
+                                Get.to(const SharedFolderUsersScreen(),
+                                    arguments: [folderData]);
+                              },
+                              icon: const Icon(Icons.person_add))
+                        ]
+                      : null),
               body: RefreshIndicator(
                 onRefresh: () async {
                   _imageHandler.getImageFromFolder(folderData.id);
@@ -53,7 +55,7 @@ class _ImageListerState extends State<ImageLister> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisSpacing: 0,
                         mainAxisSpacing: 0,
-                        crossAxisCount: 3,
+                        crossAxisCount: 2,
                       ),
                       itemCount: _imageHandler.imageList.length,
                       itemBuilder: (context, index) {
@@ -64,6 +66,7 @@ class _ImageListerState extends State<ImageLister> {
                           },
                           child: Container(
                             child: FadeInImage(
+                              fit: BoxFit.contain,
                               placeholder: AssetImage("assets/icon-img.png"),
                               image: NetworkImage(
                                   _imageHandler.imageList[index].thumbnailUrl),
@@ -73,12 +76,14 @@ class _ImageListerState extends State<ImageLister> {
                       }),
                 ),
               ),
-              floatingActionButton: FloatingActionButton(
-                  onPressed: () {
-                    _imageHandler.uploadImageWithFormData(folderData.id);
-                    setState(() {});
-                  },
-                  child: const Icon(Icons.add)),
+              floatingActionButton: isEditable
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        _imageHandler.uploadImageWithFormData(folderData.id);
+                        setState(() {});
+                      },
+                      child: const Icon(Icons.add))
+                  : null,
             );
           }
         }

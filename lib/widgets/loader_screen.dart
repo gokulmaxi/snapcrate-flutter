@@ -8,9 +8,11 @@ Scaffold waitingView() {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-          padding: EdgeInsets.all(16.0),
-          child: CircularProgressIndicator(),
-        ),
+            padding: EdgeInsets.all(40.0),
+            child: Image(
+              image: AssetImage("assets/Cube-1s-200px.gif"),
+              height: 50,
+            )),
         Text('Loading...'),
       ],
     ),

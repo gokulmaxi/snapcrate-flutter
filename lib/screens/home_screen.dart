@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:snapcrate/screens/image_list_screen.dart';
 import 'package:snapcrate/screens/shared_folder_screen.dart';
+import 'package:snapcrate/screens/splash_screen.dart';
 import 'package:snapcrate/service/auth_service.dart';
 import 'package:snapcrate/service/folder_service.dart';
 import 'package:snapcrate/utils/debug_logger.dart';
@@ -37,48 +38,120 @@ class _HomeViewState extends State<HomeView> {
                     IconButton(
                         onPressed: () {
                           _authManager.logOut();
+                          Get.offAll(SplashView());
                         },
                         icon: const Icon(Icons.logout_rounded))
                   ],
                 ),
-                body: Center(
-                  // TODO add an illustration to
-                  child: Obx(
-                    () => ListView.builder(
-                        itemCount: _folderHandler.folderList.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: Slidable(
-                              key: ValueKey(index),
-                              startActionPane: ActionPane(
-                                motion: const ScrollMotion(),
-                                children: [
-                                  // A SlidableAction can have an icon and/or a label.
-                                  SlidableAction(
-                                    onPressed: (context) {
-                                      _folderHandler.deleteFolder(
-                                          _folderHandler.folderList[index].id);
-                                    },
-                                    backgroundColor: const Color(0xFFFE4A49),
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.delete,
-                                    label: 'Delete',
+                body: LayoutBuilder(
+                  builder: ((context, constraints) {
+                    final paddingSize = constraints.maxHeight * 0.04;
+                    return Center(
+                      // TODO add an illustration to
+                      child: Obx(
+                        () => Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                              child: SizedBox(
+                                width: constraints.maxWidth * 0.9,
+                                height: constraints.maxHeight * 0.2,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    image: DecorationImage(
+                                        image: AssetImage("assets/banner.png"),
+                                        fit: BoxFit.fill),
                                   ),
-                                ],
-                              ),
-                              child: ListTile(
-                                onTap: () {
-                                  Get.to(const ImageLister(), arguments: [
-                                    _folderHandler.folderList[index]
-                                  ]);
-                                },
-                                title:
-                                    Text(_folderHandler.folderList[index].name),
+                                  child: Center(
+                                    child: const Text(
+                                      "Hello User",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20.0),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          );
-                        }),
-                  ),
+                            Flexible(
+                              child: GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                    crossAxisCount: 2,
+                                  ),
+                                  itemCount: _folderHandler.folderList.length,
+                                  itemBuilder: (context, index) {
+                                    return Card(
+                                      child: Slidable(
+                                        key: ValueKey(index),
+                                        startActionPane: ActionPane(
+                                          motion: const ScrollMotion(),
+                                          children: [
+                                            // A SlidableAction can have an icon and/or a label.
+                                            SlidableAction(
+                                              onPressed: (context) {
+                                                _folderHandler.deleteFolder(
+                                                    _folderHandler
+                                                        .folderList[index].id);
+                                              },
+                                              backgroundColor:
+                                                  const Color(0xFFFE4A49),
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.delete,
+                                              label: 'Delete',
+                                            ),
+                                          ],
+                                        ),
+                                        child: GestureDetector(
+                                            onTap: () {
+                                              Get.to(const ImageLister(),
+                                                  arguments: [
+                                                    _folderHandler
+                                                        .folderList[index],
+                                                    true
+                                                  ]);
+                                            },
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                  color: Color.fromARGB(
+                                                      100, 248, 249, 253),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20))),
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            paddingSize,
+                                                            paddingSize,
+                                                            paddingSize,
+                                                            10),
+                                                    child: const Image(
+                                                      image: AssetImage(
+                                                          "assets/folder-icon.png"),
+                                                    ),
+                                                  ),
+                                                  Text(_folderHandler
+                                                      .folderList[index].name)
+                                                ],
+                                              ),
+                                            )
+                                            // (_folderHandler.folderList[index].name),
+                                            ),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
                 ),
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {

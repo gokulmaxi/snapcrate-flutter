@@ -35,46 +35,65 @@ class _SharedFolderUsersScreenState extends State<SharedFolderUsersScreen> {
                 title: Text("${folderData.name}' users"),
               ),
               // FIXME observable not working when updating lis[[id:4fe44262-e092-4946-b888-d43cc2eaadbe][storage-account]]t
-              body: Obx(() {
-                return ListView.builder(
-                    itemCount: _sharedFolderHandler.userList.length,
-                    itemBuilder: (context, index) {
-                      var userName =
-                          _sharedFolderHandler.userList[index].userName;
-                      var shareId = _sharedFolderHandler.sharedUsersList
-                          .firstWhereOrNull(
-                              (element) => element.user.userName == userName);
-                      return Card(
-                        child: ListTile(
-                          title: Text(
-                              userName + _sharedFolderHandler.count.toString()),
-                          trailing: IconButton(
-                              onPressed: shareId == null
-                                  ? () {
-                                      _sharedFolderHandler.addToSharedFolder(
-                                          userName, folderData.id);
-                                      Future.delayed(
-                                          const Duration(milliseconds: 1000),
-                                          () {
-                                        setState(() {});
-                                      });
-                                    }
-                                  : () {
-                                      _sharedFolderHandler
-                                          .removeFromSharedFolder(shareId.id);
-                                      Future.delayed(
-                                          const Duration(milliseconds: 1000),
-                                          () {
-                                        setState(() {});
-                                      });
-                                    },
-                              icon: shareId == null
-                                  ? const Icon(Icons.person_add)
-                                  : const Icon(Icons.person_remove)),
-                        ),
-                      );
-                    });
-              }),
+              body: Column(
+                children: [
+                  Obx(() {
+                    return Flexible(
+                      child: ListView.builder(
+                          itemCount: _sharedFolderHandler.userList.length,
+                          itemBuilder: (context, index) {
+                            var userName =
+                                _sharedFolderHandler.userList[index].userName;
+                            var shareId = _sharedFolderHandler.sharedUsersList
+                                .firstWhereOrNull((element) =>
+                                    element.user.userName == userName);
+                            return Card(
+                              child: ListTile(
+                                leading: Icon(Icons.person_2_outlined),
+                                title: Text(userName),
+                                trailing: IconButton(
+                                    onPressed: shareId == null
+                                        ? () {
+                                            _sharedFolderHandler
+                                                .addToSharedFolder(
+                                                    userName, folderData.id);
+                                            Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 1000), () {
+                                              setState(() {});
+                                            });
+                                          }
+                                        : () {
+                                            _sharedFolderHandler
+                                                .removeFromSharedFolder(
+                                                    shareId.id);
+                                            Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 1000), () {
+                                              setState(() {});
+                                            });
+                                          },
+                                    icon: shareId == null
+                                        ? Container(
+                                            width: 40,
+                                            height: 30,
+                                            child: const Icon(Icons.person_add))
+                                        : Container(
+                                            width: 40,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                                color: Colors.blueAccent,
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: const Icon(
+                                                Icons.person_remove))),
+                              ),
+                            );
+                          }),
+                    );
+                  }),
+                ],
+              ),
             );
           }
         }
