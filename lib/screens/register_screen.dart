@@ -41,7 +41,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   /*decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(50.0)),*/
-                  child: const Icon(Icons.abc),
+                  child: const Icon(
+                    Icons.photo_album,
+                    color: Color.fromARGB(240, 49, 72, 194),
+                    size: 70,
+                  ),
                 ),
               ),
             ),

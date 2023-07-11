@@ -24,6 +24,7 @@ class ImageHandler extends GetxController {
     }
   }
 
+  Future<void> deleteImage(int imageId) async {}
   Future<void> uploadImageWithFormData(int folderId) async {
     final picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
