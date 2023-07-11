@@ -45,7 +45,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 body: LayoutBuilder(
                   builder: ((context, constraints) {
-                    final paddingSize = constraints.maxHeight * 0.04;
+                    final paddingSize = constraints.maxHeight * 0.08;
                     return Center(
                       // TODO add an illustration to
                       child: Obx(
@@ -63,13 +63,13 @@ class _HomeViewState extends State<HomeView> {
                                         BorderRadius.all(Radius.circular(10)),
                                     image: DecorationImage(
                                         image: AssetImage("assets/banner.png"),
-                                        fit: BoxFit.fill),
+                                        fit: BoxFit.cover),
                                   ),
                                   child: Center(
-                                    child: const Text(
-                                      "Hello User",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20.0),
+                                    child: Text(
+                                      "Hello ${_authManager.user}",
+                                      style: const TextStyle(
+                                          color: Colors.white, fontSize: 40.0),
                                     ),
                                   ),
                                 ),
@@ -130,14 +130,18 @@ class _HomeViewState extends State<HomeView> {
                                                             paddingSize,
                                                             paddingSize,
                                                             paddingSize,
-                                                            10),
+                                                            20),
                                                     child: const Image(
                                                       image: AssetImage(
                                                           "assets/folder-icon.png"),
                                                     ),
                                                   ),
-                                                  Text(_folderHandler
-                                                      .folderList[index].name)
+                                                  Text(
+                                                    _folderHandler
+                                                        .folderList[index].name,
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  )
                                                 ],
                                               ),
                                             )

@@ -6,6 +6,7 @@ import 'package:snapcrate/utils/token_handler.dart';
 
 class AuthService extends GetxController {
   final isLogged = false.obs;
+  final user = "".obs;
   Future<bool> login(String username, String password) async {
     try {
       final responseRaw = await Api().dio.post(
@@ -34,6 +35,7 @@ class AuthService extends GetxController {
         return false;
       }
       isLogged.value = true;
+      user.value = username;
       Get.snackbar("login", "succ");
       if (kDebugMode) {
         print(response.token);

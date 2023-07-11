@@ -1,16 +1,16 @@
 # snapcrate
 
-A new Flutter project.
+An simple app to to upload and share photos with your friends
 
-## Getting Started
+## Planned System Design
 
-This project is a starting point for a Flutter application.
+![Hello](./assets/Snapcrate%20-%20system%20design.png)
 
-A few resources to get you started if this is your first Flutter project:
+## Planned Ui
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+[Wireframe.pdf](./assets/wirerame.pdf)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Mockups
+
+![Mockup-1](./assets/mockups/mc-2.png)
+![Mockup-1](./assets/mockups/mc-1.png)
