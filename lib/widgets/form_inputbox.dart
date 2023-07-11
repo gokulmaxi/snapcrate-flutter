@@ -135,7 +135,7 @@ class ValidationIndicator extends StatelessWidget {
             width: 20,
             height: 20,
             decoration: BoxDecoration(
-                color: _validationFlag ? Colors.green : Colors.transparent,
+                color: _validationFlag ? Colors.blueAccent : Colors.transparent,
                 border: _validationFlag
                     ? Border.all(color: Colors.transparent)
                     : Border.all(color: Colors.grey.shade400),

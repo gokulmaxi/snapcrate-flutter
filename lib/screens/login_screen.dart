@@ -44,8 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Email',
-                        hintText: 'Enter valid email id as abc@gmail.com'),
+                        labelText: 'Username',
+                        hintText: 'Enter your username'),
                   ),
                 ),
                 Padding(
