@@ -24,7 +24,17 @@ class ImageHandler extends GetxController {
     }
   }
 
-  Future<void> deleteImage(int imageId) async {}
+  Future<void> deleteImage(int imageId) async {
+    try {
+      final response = await Api().dio.delete("/api/Images/$imageId");
+      if (response.statusCode == 204) {
+        Get.back();
+      }
+    } catch (err) {
+      return Future.error(err);
+    }
+  }
+
   Future<void> uploadImageWithFormData(int folderId) async {
     final picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);

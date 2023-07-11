@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:snapcrate/models/image_model.dart';
+import 'package:snapcrate/service/image_service.dart';
 import 'package:snapcrate/utils/debug_logger.dart';
 
 class ImageViewer extends StatelessWidget {
@@ -9,6 +10,7 @@ class ImageViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ImageHandler _imageHandler = Get.find();
     final ImageModel imageData = Get.arguments[0];
     return Scaffold(
       appBar: AppBar(
@@ -32,6 +34,9 @@ class ImageViewer extends StatelessWidget {
         ],
         onTap: (index) {
           dLog(index);
+          if (index == 0) {
+            _imageHandler.deleteImage(imageData.imageId);
+          }
         },
       ),
     );
