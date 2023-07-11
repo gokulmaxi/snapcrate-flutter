@@ -106,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
                                             ),
                                           ],
                                         ),
-                                        child: GestureDetector(
+                                        child: InkWell(
                                             onTap: () {
                                               Get.to(const ImageLister(),
                                                   arguments: [

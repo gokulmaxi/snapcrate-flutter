@@ -51,29 +51,46 @@ class _ImageListerState extends State<ImageLister> {
                   _imageHandler.getImageFromFolder(folderData.id);
                 },
                 child: Obx(
-                  () => GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 0,
-                        crossAxisCount: 2,
-                      ),
-                      itemCount: _imageHandler.imageList.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Get.to(ImageViewer(),
-                                arguments: [_imageHandler.imageList[index]]);
-                          },
-                          child: Container(
-                            child: FadeInImage(
-                              fit: BoxFit.contain,
-                              placeholder: AssetImage("assets/icon-img.png"),
-                              image: NetworkImage(
-                                  _imageHandler.imageList[index].thumbnailUrl),
-                            ),
+                  () => (_imageHandler.imageList.length == 0)
+                      ? Center(
+                          child: Column(
+                            children: [
+                              Image(
+                                image: AssetImage("assets/camera.png"),
+                              ),
+                              Text(
+                                "Add images to crate",
+                                style: TextStyle(fontSize: 20),
+                              )
+                            ],
                           ),
-                        );
-                      }),
+                        )
+                      : GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 0,
+                            mainAxisSpacing: 0,
+                            crossAxisCount: 2,
+                          ),
+                          itemCount: _imageHandler.imageList.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Get.to(ImageViewer(), arguments: [
+                                  _imageHandler.imageList[index]
+                                ]);
+                              },
+                              child: Container(
+                                child: FadeInImage(
+                                  fit: BoxFit.contain,
+                                  placeholder:
+                                      AssetImage("assets/icon-img.png"),
+                                  image: NetworkImage(_imageHandler
+                                      .imageList[index].thumbnailUrl),
+                                ),
+                              ),
+                            );
+                          }),
                 ),
               ),
               floatingActionButton: isEditable
