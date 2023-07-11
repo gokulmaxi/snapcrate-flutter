@@ -86,4 +86,16 @@ class SharedFoldersHandler extends GetxController {
       return Future.error(err);
     }
   }
+
+  Future<void> updateEditingRights(int id, bool canEdit) async {
+    try {
+      final response =
+          await Api().dio.put("/api/SharedFolder/$id?enableEditing=$canEdit");
+      if (response.statusCode == 204) {
+        Get.snackbar("updated", "can edit  : $canEdit");
+      }
+    } catch (err) {
+      return Future.error(err);
+    }
+  }
 }

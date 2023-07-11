@@ -48,12 +48,18 @@ class _SharedFolderUsersScreenState extends State<SharedFolderUsersScreen> {
                                 .firstWhereOrNull((element) =>
                                     element.user.userName == userName);
                             return Card(
-                              child: ListTile(
-                                leading: Icon(Icons.person_2_outlined),
-                                title: Text(userName),
-                                trailing: IconButton(
-                                    onPressed: shareId == null
-                                        ? () {
+                              elevation: 4,
+                              margin: EdgeInsets.all(10),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  leading: Icon(Icons.person_2_outlined),
+                                  title: Text(userName),
+                                  trailing: (shareId == null)
+                                      ? IconButton(
+                                          onPressed: () {
                                             _sharedFolderHandler
                                                 .addToSharedFolder(
                                                     userName, folderData.id);
@@ -62,31 +68,44 @@ class _SharedFolderUsersScreenState extends State<SharedFolderUsersScreen> {
                                                     milliseconds: 1000), () {
                                               setState(() {});
                                             });
-                                          }
-                                        : () {
-                                            _sharedFolderHandler
-                                                .removeFromSharedFolder(
-                                                    shareId.id);
-                                            Future.delayed(
-                                                const Duration(
-                                                    milliseconds: 1000), () {
-                                              setState(() {});
-                                            });
                                           },
-                                    icon: shareId == null
-                                        ? Container(
-                                            width: 40,
-                                            height: 30,
-                                            child: const Icon(Icons.person_add))
-                                        : Container(
-                                            width: 40,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                                color: Colors.blueAccent,
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            child: const Icon(
-                                                Icons.person_remove))),
+                                          icon: Container(
+                                              width: 40,
+                                              height: 30,
+                                              child:
+                                                  const Icon(Icons.person_add)))
+                                      : Wrap(children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              _sharedFolderHandler
+                                                  .removeFromSharedFolder(
+                                                      shareId.id);
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 1000), () {
+                                                setState(() {});
+                                              });
+                                            },
+                                            icon: Icon(Icons.person_remove),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                _sharedFolderHandler
+                                                    .updateEditingRights(
+                                                        shareId.id,
+                                                        !shareId.enableEditing);
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 1000),
+                                                    () {
+                                                  setState(() {});
+                                                });
+                                              },
+                                              icon: shareId.enableEditing
+                                                  ? Icon(Icons.edit_off)
+                                                  : Icon(Icons.edit))
+                                        ]),
+                                ),
                               ),
                             );
                           }),
