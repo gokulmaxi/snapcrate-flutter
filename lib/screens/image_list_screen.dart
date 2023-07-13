@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:snapcrate/models/folder_models.dart';
 import 'package:snapcrate/screens/image_view_screen.dart';
 import 'package:snapcrate/screens/shared_users_screen.dart';
@@ -93,13 +97,35 @@ class _ImageListerState extends State<ImageLister> {
                           }),
                 ),
               ),
+              floatingActionButtonLocation: ExpandableFab.location,
               floatingActionButton: isEditable
-                  ? FloatingActionButton(
-                      onPressed: () {
-                        _imageHandler.uploadImageWithFormData(folderData.id);
-                        setState(() {});
-                      },
-                      child: const Icon(Icons.add))
+                  ? ExpandableFab(
+                      child: Icon(Icons.add),
+                      children: [
+                        if (Platform.isAndroid || Platform.isIOS)
+                          FloatingActionButton(
+                              onPressed: () {
+                                _imageHandler.uploadImageWithFormData(
+                                    folderData.id, ImageSource.camera);
+                                setState(() {});
+                              },
+                              child: const Icon(Icons.camera)),
+                        FloatingActionButton(
+                            onPressed: () {
+                              _imageHandler
+                                  .uploadImagesWithFormData(folderData.id);
+                              setState(() {});
+                            },
+                            child: const Icon(Icons.photo)),
+                        FloatingActionButton(
+                            onPressed: () {
+                              _imageHandler.uploadImageWithFormData(
+                                  folderData.id, ImageSource.gallery);
+                              setState(() {});
+                            },
+                            child: const Icon(Icons.photo_album)),
+                      ],
+                    )
                   : null,
             );
           }

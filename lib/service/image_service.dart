@@ -39,9 +39,9 @@ class ImageHandler extends GetxController {
     dLog(imageData.imageUrl);
   }
 
-  Future<void> uploadImageWithFormData(int folderId) async {
+  Future<void> uploadImageWithFormData(int folderId, ImageSource source) async {
     final picker = ImagePicker();
-    final image = await picker.pickImage(source: ImageSource.gallery);
+    final image = await picker.pickImage(source: source);
 
     if (image == null) {
       return; // No image selected
@@ -63,6 +63,38 @@ class ImageHandler extends GetxController {
     } catch (e) {
       // Handle the error
       print(e.toString());
+    }
+  }
+
+  Future<void> uploadImagesWithFormData(int folderId) async {
+    final picker = ImagePicker();
+    List<XFile>? images = await picker.pickMultiImage();
+
+    if (images == null || images.isEmpty) {
+      return; // No images selected
+    }
+
+    List<MultipartFile> multipartFiles = [];
+
+    for (XFile image in images) {
+      FormData formData = FormData.fromMap({
+        'folderId': folderId,
+        'files': await MultipartFile.fromFile(image.path),
+      });
+
+      try {
+        final response = await Api().dio.post(
+              '/api/Images/Upload', // Replace with your upload URL
+              data: formData,
+            );
+
+        // Handle the response
+        print(response.data);
+        getImageFromFolder(folderId);
+      } catch (e) {
+        // Handle the error
+        print(e.toString());
+      }
     }
   }
 }
