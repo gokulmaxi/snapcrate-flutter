@@ -63,6 +63,11 @@ class ErrorInterceptor extends Interceptor {
           "Request Error", err.response?.statusMessage ?? "Bad Request");
     }
     // if (err.) {
+    if (err.response?.statusCode == 500) {
+      Get.snackbar("Session expired", "Login again");
+      TokenManger().eraseStorage();
+      Get.offAll(SplashView());
+    }
 
     // }
 

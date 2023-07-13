@@ -16,6 +16,10 @@ class TokenManger {
     return _box.read(Globals().jwtStorageToken);
   }
 
+  void eraseStorage() {
+    _box.erase();
+  }
+
   Future<void> removeToken() async {
     await _box.remove(Globals().jwtStorageToken);
   }
